@@ -8,9 +8,9 @@ A system to allow employees to enter customers into a database. This will create
 ```
 DOMPDF is missing to libs
 ```
-cd /dompdf/lib
-git clone https://github.com/PhenX/php-font-lib.git lib/php-font-lib
-git clone https://github.com/PhenX/php-svg-lib.git php-svg-lib
+Download Dompdf 0.8.0
+https://github.com/dompdf/dompdf/releases/tag/v0.8.0
+
 ```
 
 ```

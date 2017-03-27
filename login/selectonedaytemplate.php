@@ -41,7 +41,49 @@ $temp1 = <<< HTML
 <head>
     <title>Template 1</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <link rel="stylesheet" type="text/css" media="screen" href="pdf-templates/temp1/temp1.css" />
+    <style>
+        body {
+    font-family: 'Open Sans';
+}
+
+#pdf_header,
+#pdf_container {
+    padding: 5px;
+}
+
+#pdf_header {
+    margin: 10px auto 0px;
+    border-bottom: none;
+}
+
+table {
+    width: 700px;
+    padding: 5px;
+}
+
+#pdf_container {
+    margin: 0px auto;
+}
+
+.rpt_title {
+    background: #99CCFF;
+}
+
+.center {
+    text-align: center;
+    margin: 0 auto;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.sign-header {
+    background: blue;
+    color: #fff;
+}
+
+    </style>
 </head>
 
 <body>

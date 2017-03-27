@@ -1,4 +1,11 @@
 <?php
+// Show all errors
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+// DOMPDF include autoloader
+		require_once 'dompdf/autoload.inc.php';
+		// reference the Dompdf namespace
+		use Dompdf\Dompdf;
 class SelectTempOne extends DbConn
 {
     public function selectUserForOne()
@@ -152,9 +159,33 @@ class SelectTempOne extends DbConn
 		 send here mail to the above mail with the template provided after the mail is succesfully sent it will be saved in our database history so 
 		 that same template is not sent again to that particular user once again 
 		*/
+		$cust_email  = $email;
+		
+		// instantiate and use the dompdf class
+			$dompdf = new Dompdf();
+			// set strict html syntax checking options in DOMPDF
+			$dompdf->set_option('isHtml5ParserEnabled', true);
+			// set font option in DOMPDF
+			$dompdf->set_option('defaultFont', 'Courier');
+
+			$dompdf->load_html($template);
+
+			// set option for the paper size and orientation
+			$dompdf->setPaper('A4', 'letter');
+
+			// Render the HTML as PDF
+			$dompdf->render();
+
+			//save the file to the server
+			$output = $dompdf->output();
+			file_put_contents('pdf/'.$email.$temp_id.'.pdf', $output);
+
+		
 		$inserted = $this->insertSentEmailToDatabase($temp_id,$customer_id);
 			return "iserted = ".$inserted. " send mail to ".$email . " <br>With template ". $template;
 	}
+	
+	
 	private function insertSentEmailToDatabase($temp_id,$customer_id){
 		 try {
 

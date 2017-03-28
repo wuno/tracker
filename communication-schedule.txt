@@ -1,0 +1,4 @@
+MAILTO=email@example.com
+30 9 * * * /root/path/to/php/file/to/run/script.php >/dev/null
+
+

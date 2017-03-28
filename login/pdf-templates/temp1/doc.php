@@ -27,7 +27,7 @@
         </table>
         <table>
             <tr>
-                <td><?php $response[$i]['email']; ?></td>
+                <td>:email</td>
             </tr>
         </table>
         <table>

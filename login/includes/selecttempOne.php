@@ -166,20 +166,23 @@ class SelectTempOne extends DbConn
 		 send here mail to the above mail with the template provided after the mail is succesfully sent it will be saved in our database history so 
 		 that same template is not sent again to that particular user once again 
 		*/
-		$inserted = $this->insertSentEmailToDatabase($temp_id,$customer_id);
+		$file_path = $email.'_'.$temp_id.'.pdf';
+		$inserted = $this->insertSentEmailToDatabase($temp_id,$customer_id,$file_path);
 			return "iserted = ".$inserted. " send mail to ".$email . " <br>With template ". $template;
 	}
 	
 	
-	private function insertSentEmailToDatabase($temp_id,$customer_id){
+	private function insertSentEmailToDatabase($temp_id,$customer_id,$file_path){
 		 try {
 
             $db = new DbConn;          
             // prepare sql and bind parameters
-            $stmt = $db->conn->prepare("INSERT into temp_history (customer_id,temp_id) values(:cusid,:tempid)");
+            $stmt = $db->conn->prepare("INSERT into temp_history (customer_id,temp_id,file_path) values(:cusid,:tempid,:filepath)");
 			$stmt->bindParam(':cusid', $customer_id);
 			$stmt->bindParam(':tempid', $temp_id);
+			$stmt->bindParam(':filepath', $file_path);
             $stmt->execute();
+			
 			$result = $stmt->rowCount();
 			
 			
@@ -195,6 +198,7 @@ class SelectTempOne extends DbConn
         } else {
             $success = $err;
         };
+		//echo "$success";
         return $success;
 	}
 }

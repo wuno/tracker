@@ -21,6 +21,8 @@ class GetCustomerList extends DbConn
 				
 				
 				$cust["id"] = $row["id"];
+				$cust["customer_id"] = $row["customer_id"];	
+				$cust["temp_id"] = $row["temp_id"];	
 				$cust["email"] = $row["email"];
 				$cust["fname"] = $row["fname"];	
 				$cust["lname"] = $row["lname"];	

@@ -8,7 +8,7 @@ class SelectTempOne extends DbConn
 
             $db = new DbConn;          
             // prepare sql and bind parameters
-            $stmt = $db->conn->prepare("SELECT id, email ,DATEDIFF(now(),startdate) as datediff FROM `customers`");
+            $stmt = $db->conn->prepare("SELECT id,fname,lname, email ,DATEDIFF(now(),startdate) as datediff FROM `customers`");
        
             $stmt->execute();
 			
@@ -22,6 +22,9 @@ class SelectTempOne extends DbConn
 				
 				$cust["id"] = $row["id"];
 				$cust["email"] = $row["email"];
+				
+				$cust["fname"] = $row["fname"];
+				$cust["lname"] = $row["lname"];
 				$cust["cust_age"] = $row["datediff"];	
 				
 				$cust_age = $cust["cust_age"];
@@ -30,23 +33,36 @@ class SelectTempOne extends DbConn
 				
 				
 				
-				if($cust_age = 1 && $cust_age < 2)	{	
+				if($cust_age = 10 && $cust_age < 14)	{	
 					// Check if cust_age is between 1 or 2 then send template with id 1				
-				 $cust["template"] = $this->getHtmlTemplate($cust_id,$cust_email,"1");
-					$cust["temp_id"] = "2";
-					if(!$this->checkIfTemplateAlreadySent($cust_email,"1"))
-					array_push($result,$cust);
+				
+					 $done = $this->checkIfTemplateAlreadySent($cust_email,"1");
+					if(!$done){
+						//echo json_encode($cust);
+						
+						 $cust["template"] = $this->getHtmlTemplate($cust_id,$cust_email,"1");
+						$cust["temp_id"] = "1";
+						array_push($result,$cust);
+					}
+					
 				} else if ($cust_age=10 && $cust_age<11){
-					// Check if cust_age is between 10 or 11 then send template with id 2
+					
+					if(!$this->checkIfTemplateAlreadySent($cust_email,"2")){
+						// Check if cust_age is between 10 or 11 then send template with id 2
 					$cust["template"] = $this->getHtmlTemplate($cust_id,$cust_email,"2");
 					$cust["temp_id"] = "2";
-					if(!$this->checkIfTemplateAlreadySent($cust_email,"2"))
 					array_push($result,$cust);
+					}
+					
 				} else if ($cust_age=20 && $cust_age<21){
 					// Check if cust_age is between 20 or 21 then send template with id 3
-					$cust["template"] = $this->getHtmlTemplate($cust_id,$cust_email,"3");
-					if(!$this->checkIfTemplateAlreadySent($cust_email,"3"))
-					array_push($result,$cust);
+					
+					if(!$this->checkIfTemplateAlreadySent($cust_email,"3")){
+						$cust["template"] = $this->getHtmlTemplate($cust_id,$cust_email,"3");
+						$cust["temp_id"] = "3";
+						array_push($result,$cust);
+					}
+					
 				}
 
 
@@ -91,7 +107,7 @@ class SelectTempOne extends DbConn
 			 //$result = $stmt->fetch(PDO::FETCH_ASSOC);
 			
 			$result = $stmt->rowCount();
-			
+			//echo "hi".$result;
 			$response = $result;
             $err = '';
 
@@ -126,15 +142,13 @@ class SelectTempOne extends DbConn
 				$stmt->bindParam(':myid', $temp_id);
 				$stmt->execute();
 				
-				
-				
-				
 				 //$result = $stmt->fetch(PDO::FETCH_ASSOC);
 				
 				foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
 					$cust["name"] = $row["name"];
 					$cust["template"] = $row["template"];				
 					$result = $cust["template"];
+					//echo "sendmail";
 					//$result = 
 					$this->sendEmailTo($customer_id,$temp_id,$email,$cust["template"]);
 				}

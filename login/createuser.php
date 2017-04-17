@@ -52,6 +52,7 @@ if ($pw1 != $pw2) {
             $m->sendMail($newemail, $newuser, $newid, 'Verify');
 
         } else {
+			 echo '<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'. $response .'</div><div id="returnVal" style="display:none;">true</div>';
             //Failure
             mySqlErrors($response);
 

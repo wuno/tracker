@@ -1,8 +1,6 @@
 <?php
 // Show all errors
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+ini_set('display_errors', 'On');
 
 // DOMPDF include autoloader
 require_once 'dompdf/autoload.inc.php';
@@ -35,6 +33,7 @@ $dompdf->set_option('defaultFont', 'Courier');
 $cust_email = (string)$response[$i]['email'];
 // statically typing template string to render email address of user
  $temp_id = $response[$i]['temp_id'];
+ $fname = $response[$i]['fname'];
 $temp1 = file_get_contents($response[$i]['template']);
 // for replacing the email dynamicaly ;
 $temp = str_replace(":email",$cust_email,$temp1);
@@ -49,8 +48,15 @@ $dompdf->render();
 
 //save the file to the server
 $output = $dompdf->output();
-file_put_contents('pdf/'.$cust_email.'_'.$temp_id.'.pdf', $output);
 
+$file_put = file_put_contents('pdf/'.$cust_email.'_'.$temp_id.'.pdf', $output);
+
+print_r($file_put);
+
+ /* $url = 'https://riverwalkdebt.com/tracker/login/pdf/'.$cust_email.'_'.$temp_id.'.pdf';
+  $url_name = $cust_email.'_'.$temp_id.'.pdf';
+  $m = new MailSenderDemo;
+            $m->sendMailDemo($cust_email,$fname,$temp,$url,$url_name);*/
 // Output the generated PDF to Browser
 // $dompdf->stream();
 // exit;
